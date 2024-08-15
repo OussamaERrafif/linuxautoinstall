@@ -1,0 +1,42 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: jenkins
+    username: jenkins
+    password: "$6$rounds=4096$your_salt$your_encrypted_password_here"
+    ssh:
+      install-server: yes
+  locale: en_US.UTF-8
+  timezone: Africa/Casablanca
+  keyboard:
+    layout: fr
+    variant: azerty
+  storage:
+    layout:
+      name: lvm
+      match:
+        size: largest
+      wipe: superblock-recursive
+  packages:
+    - build-essential
+    - git
+    - curl
+    - vim
+    - openjdk-11-jdk
+    - maven
+    - docker.io
+    - python3
+    - python3-pip
+  user-data:
+    disable_root: false
+  network:
+    ethernets:
+      eth0:
+        dhcp4: true
+        dhcp-identifier: mac
+    version: 2
+  late-commands:
+    - echo "jenkins ALL=(ALL) NOPASSWD:ALL" > /target/etc/sudoers.d/jenkins
+    - iptables -I INPUT -p tcp --dport 22 -j ACCEPT
+    - iptables -I INPUT -s 0.0.0.0/0 -j ACCEPT
