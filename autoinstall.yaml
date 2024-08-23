@@ -4,9 +4,7 @@ autoinstall:
   identity:
     hostname: jenkins
     username: jenkins
-    password: "$6$rounds=4096$your_salt$your_encrypted_password_here"
-    ssh:
-      install-server: yes
+    password: "jenkins"
   locale: en_US.UTF-8
   timezone: Africa/Casablanca
   keyboard:
@@ -36,6 +34,8 @@ autoinstall:
         dhcp4: true
         dhcp-identifier: mac
     version: 2
+  ssh:
+    install-server: yes
   late-commands:
     - echo "jenkins ALL=(ALL) NOPASSWD:ALL" > /target/etc/sudoers.d/jenkins
     - iptables -I INPUT -p tcp --dport 22 -j ACCEPT
